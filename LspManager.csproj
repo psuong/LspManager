@@ -6,6 +6,11 @@
     <ImplicitUsings>false</ImplicitUsings>
     <PublishAot>true</PublishAot>
     <TrimMode>full</TrimMode>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Tomlyn" Version="0.18.0" />
+  </ItemGroup>
 
 </Project>

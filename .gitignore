@@ -2,3 +2,4 @@
 /obj
 
 config.toml
+*.zip
