@@ -38,4 +38,4 @@ jobs:
       - name: Clean up
         run: |
           echo "Cleaning up build files..."
-          rm -rf ./bin/Release/net8.0/win-x64/publish/
+          rm -R -Force ./bin/Release/net8.0/win-x64/publish/
