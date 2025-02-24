@@ -10,7 +10,7 @@ namespace LspManager;
 
 public class Program {
     private static readonly Regex Extension = new Regex(@"\.(zip|7z)+");
-    public static async Task Main(string[] argv) {
+    public static async Task Main() {
         using var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0");
 
@@ -32,8 +32,6 @@ public class Program {
                 }
             }
 
-            Console.WriteLine(fileName);
-
             if (string.IsNullOrEmpty(downloadUrl)) {
                 Console.WriteLine($"Failed to find: {data.target}");
                 return;
@@ -51,6 +49,7 @@ public class Program {
             var extractionPath = Path.Combine(config.Destination, Extension.Replace(fileName, string.Empty));
             ZipFile.ExtractToDirectory(zipPath, extractionPath, true);
             File.Delete(zipPath);
+            Console.WriteLine($"Finished extracting for: {extractionPath}");
         });
 
         t.Wait();

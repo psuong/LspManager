@@ -5,13 +5,51 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Tomlyn;
+using Tomlyn.Model;
+using Tomlyn.Syntax;
 
 namespace LspManager;
 
 public static class ConfigHelper {
+    static string GetTomlStringValue(DocumentSyntax document, string key)
+    {
+        if (document.ToModel().TryGetValue(key, out var value))
+        {
+            return value.ToString();
+        }
+        return null;
+    }
+
     public static async Task<Config> Load(string path) {
         var text = await File.ReadAllTextAsync(path);
-        return Toml.Parse(text).ToModel<Config>();
+        var document = Toml.Parse(text);
+
+        var config = new Config();
+
+        // Access simple properties directly
+        config.URL = GetTomlStringValue(document, "url");
+        config.Destination = GetTomlStringValue(document, "destination");
+
+        if (document.ToModel().TryGetValue("repositories", out var repositoriesNode))
+        {
+            var repositoriesList = repositoriesNode as TomlTableArray;
+            Console.WriteLine(repositoriesList == null);
+            foreach (var repoNode in repositoriesList)
+            {
+                if (repoNode is TomlTable repoTable)
+                {
+                    var setting = new Setting
+                    {
+                        Name = repoTable["name"].ToString(),
+                        Target = repoTable["target"].ToString()
+                    };
+                    config.Repositories.Add(setting);
+                }
+            }
+        }
+
+        return config;
+        // return Toml.Parse(text).ToModel<Config>();
     }
 
     public static Task ForEach(this Config config, [NotNull] Func<(string url, string target), Task> action) {
@@ -31,6 +69,7 @@ public static class ConfigHelper {
     }
 }
 
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
 public class Config {
     [DataMember(Name = "url")]
     public string URL { get; set; }
@@ -39,9 +78,10 @@ public class Config {
     public string Destination { get; set; }
 
     [DataMember(Name = "repositories")]
-    public List<Setting> Repositories { get; set; }
+    public List<Setting> Repositories { get; set; } = new List<Setting>();
 }
 
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
 public class Setting {
     [DataMember(Name = "name")]
     public string Name { get; set; }

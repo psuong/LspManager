@@ -1,0 +1,8 @@
+<linker>
+  <assembly fullname="Tomlyn" preserve="all">
+    <type fullname="Tomlyn.Model.TomlTable" preserve="all"/>
+    <type fullname="Tomlyn.Model.TomlTableArray" preserve="all"/>
+    <type fullname="Tomlyn.Toml" preserve="all"/>
+    <type fullname="Tomlyn.TomlModelOptions" preserve="all"/>
+  </assembly>
+</linker>

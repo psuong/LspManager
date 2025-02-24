@@ -5,12 +5,19 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>false</ImplicitUsings>
     <PublishAot>true</PublishAot>
-    <TrimMode>full</TrimMode>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
     <Nullable>disable</Nullable>
+    <TrimMode>Minimal</TrimMode>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Tomlyn" Version="0.18.0" />
+    <TrimmerRootAssembly Include="Tomlyn" />
+    <RootDescriptor Include="illink.xml" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+  </PropertyGroup>
 </Project>
