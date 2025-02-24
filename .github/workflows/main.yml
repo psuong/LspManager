@@ -1,0 +1,41 @@
+name: Build AOT .NET Project for Windows
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the project
+        run: dotnet build -c Release
+
+      - name: Publish AOT for Windows
+        run: dotnet publish -c Release
+
+      - name: Archive the build
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-aot-build
+          path: ./bin/Release/net8.0/win-x64/publish/  # Path to the published AOT output
+
+      - name: Clean up
+        run: |
+          echo "Cleaning up build files..."
+          rm -rf ./bin/Release/net8.0/win-x64/publish/
