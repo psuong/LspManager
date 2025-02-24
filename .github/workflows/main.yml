@@ -1,12 +1,12 @@
 name: Build AOT .NET Project for Windows
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
+  push:
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
@@ -29,13 +29,13 @@ jobs:
       - name: Publish AOT for Windows
         run: dotnet publish -c Release
 
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./bin/Release/net8.0/win-x64/publish/*
+
       - name: Archive the build
         uses: actions/upload-artifact@v4
         with:
           name: windows-aot-build
           path: ./bin/Release/net8.0/win-x64/publish/
-
-      - name: Clean up
-        run: |
-          echo "Cleaning up build files..."
-          rm -R -Force ./bin/Release/net8.0/win-x64/publish/
