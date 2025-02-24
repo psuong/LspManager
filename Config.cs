@@ -36,7 +36,8 @@ public static class ConfigHelper {
                     if (repoNode is TomlTable repoTable) {
                         var setting = new Setting {
                             Name = repoTable["name"].ToString(),
-                            Target = repoTable["target"].ToString()
+                            Target = repoTable["target"].ToString(),
+                            Display = repoTable["display"].ToString()
                         };
                         config.Repositories.Add(setting);
                     }
@@ -48,7 +49,7 @@ public static class ConfigHelper {
 #endif
     }
 
-    public static Task ForEach(this Config config, Func<(string url, string target), Task> action) {
+    public static Task ForEach(this Config config, Func<(string url, string target, string display), Task> action) {
         if (!Directory.Exists(config.Destination)) {
             Directory.CreateDirectory(config.Destination);
         }
@@ -58,7 +59,7 @@ public static class ConfigHelper {
         foreach (var setting in config.Repositories) {
             var url = $"{config.URL}{setting.Name}/releases/latest";
 
-            var task = action.Invoke((url, setting.Target));
+            var task = action.Invoke((url, setting.Target, setting.Display));
             tasks[index++] = task;
         }
         return Task.WhenAll(tasks);
@@ -77,4 +78,6 @@ public class Setting {
     public string Name { get; set; }
 
     public string Target { get; set; }
+
+    public string Display { get; set; }
 }

@@ -46,7 +46,7 @@ public class Program {
                 }
             }
             Console.WriteLine($"Download completed for: {zipPath}");
-            var extractionPath = Path.Combine(config.Destination, Extension.Replace(fileName, string.Empty));
+            var extractionPath = Path.Combine(config.Destination, data.display);
             ZipFile.ExtractToDirectory(zipPath, extractionPath, true);
             File.Delete(zipPath);
             Console.WriteLine($"Finished extracting for: {extractionPath}");
