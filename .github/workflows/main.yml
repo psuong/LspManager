@@ -30,10 +30,10 @@ jobs:
         run: dotnet publish -c Release
 
       - name: Archive the build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: windows-aot-build
-          path: ./bin/Release/net8.0/win-x64/publish/  # Path to the published AOT output
+          path: ./bin/Release/net8.0/win-x64/publish/
 
       - name: Clean up
         run: |
