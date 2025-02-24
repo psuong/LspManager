@@ -29,10 +29,14 @@ jobs:
       - name: Publish AOT for Windows
         run: dotnet publish -c Release
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
+      - name: GH Release
+        uses: softprops/action-gh-release@v2.2.1
         with:
           files: ./bin/Release/net8.0/win-x64/publish/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}          
 
       - name: Archive the build
         uses: actions/upload-artifact@v4
