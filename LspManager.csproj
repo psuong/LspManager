@@ -6,15 +6,12 @@
     <ImplicitUsings>false</ImplicitUsings>
     <PublishAot>true</PublishAot>
     <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>partial</TrimMode>
+    <TrimMode>full</TrimMode>
     <Nullable>disable</Nullable>
-    <TrimMode>Minimal</TrimMode>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Tomlyn" Version="0.18.0" />
-    <TrimmerRootAssembly Include="Tomlyn" />
-    <RootDescriptor Include="illink.xml" />
   </ItemGroup>
 
   <PropertyGroup>
