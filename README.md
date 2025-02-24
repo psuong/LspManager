@@ -1,7 +1,7 @@
 # LspManager
 
 Pulls the latest LSP's from public github repositories. This utility reads from 
-a `config.toml` in the executable's same directory.
+a `config.toml` that you supply.
 
 ## Build instructions
 Run the following in your terminal. Requires **.NET 8.0** or higher.
@@ -37,3 +37,8 @@ display = "slang"
 * **display**: The name of the directory to extract to defined at the `destination`
 
 For example if the `destination` is `C:\dev` then omnisharp will extract to `C:\dev\omnisharp`.
+
+## Running it
+```bash
+LspManager.exe config.toml
+```

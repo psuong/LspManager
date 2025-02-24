@@ -3,19 +3,17 @@ using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LspManager;
 
 public class Program {
-    private static readonly Regex Extension = new Regex(@"\.(zip|7z)+");
-    public static async Task Main() {
+    public static async Task Main(string[] argv) {
         using var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0");
 
-        var config = await ConfigHelper.Load("config.toml");
-        var t = config.ForEach(async (data) => {
+        var config = await ConfigHelper.Load(argv[0]);
+        var task = config.ForEach(async (data) => {
             Console.WriteLine($"Fetching from url: {data.url} with target {data.target}");
             var response = await httpClient.GetStringAsync(data.url);
             using var jsonDoc = JsonDocument.Parse(response);
@@ -52,6 +50,6 @@ public class Program {
             Console.WriteLine($"Finished extracting for: {extractionPath}");
         });
 
-        t.Wait();
+        task.Wait();
     }
 }
