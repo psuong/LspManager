@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LspManager;
+namespace BinGet;
 
 public class Program {
     private const int BufferSize = 8192;
@@ -90,16 +90,21 @@ public class Program {
         });
 
         task.Wait();
+        var newLine = currentLine + (4 * config.Repositories.Count) + 1;
+        Console.SetCursorPosition(0, newLine);
     }
 
     private static void Log(string msg, int line, ConsoleColor foreground) {
+        if (line >= Console.BufferHeight) {
+            return;
+        }
         Console.ForegroundColor = foreground;
         Console.SetCursorPosition(0, line);
         Console.Write(msg);
     }
 
     private static void DrawProgressBar(long current, long total, int line, string url) {
-        if (total <= 0) {
+        if (total <= 0 || line >= Console.BufferHeight) {
             return;
         }
 

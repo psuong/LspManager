@@ -6,7 +6,7 @@ using Tomlyn;
 using Tomlyn.Model;
 using Tomlyn.Syntax;
 
-namespace LspManager;
+namespace BinGet;
 
 public static class ConfigHelper {
 #if !IL
