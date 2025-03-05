@@ -1,6 +1,6 @@
-# LspManager
+# BinGet
 
-Pulls the latest LSP's from public github repositories. This utility reads from 
+Pulls the latest binaries and zips from public github repositories. This utility reads from 
 a `config.toml` that you supply.
 
 ## Build instructions
@@ -40,5 +40,5 @@ For example if the `destination` is `C:\dev` then omnisharp will extract to `C:\
 
 ## Running it
 ```bash
-LspManager.exe config.toml
+binget.exe config.toml
 ```

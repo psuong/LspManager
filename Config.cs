@@ -49,9 +49,9 @@ public static class ConfigHelper {
 #endif
     }
 
-    public static Task ForEach(this Config config, Func<(string url, string target, string display), Task> action) {
+    public static Task ForEach(this Config config, Func<(string url, string target, string display, int index), Task> action) {
         if (!Directory.Exists(config.Destination)) {
-            Directory.CreateDirectory(config.Destination);
+            _ = Directory.CreateDirectory(config.Destination);
         }
 
         var tasks = new Task[config.Repositories.Count];
@@ -59,7 +59,7 @@ public static class ConfigHelper {
         foreach (var setting in config.Repositories) {
             var url = $"{config.URL}{setting.Name}/releases/latest";
 
-            var task = action.Invoke((url, setting.Target, setting.Display));
+            var task = action.Invoke((url, setting.Target, setting.Display, index));
             tasks[index++] = task;
         }
         return Task.WhenAll(tasks);

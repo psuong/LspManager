@@ -4,3 +4,7 @@
 config.toml
 *.zip
 *.binlog
+dnSpy/
+lua/
+omnisharp/
+slang/
